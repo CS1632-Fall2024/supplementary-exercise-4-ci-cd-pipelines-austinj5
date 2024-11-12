@@ -172,10 +172,6 @@ public class RentACatIntegrationTest {
         r.addCat(c2);
         r.addCat(c3);
 
-        when(c1.toString()).thenReturn("ID 1. Jennyanydots");
-        when(c2.toString()).thenReturn("ID 2. Old Deuteronomy");
-        when(c3.toString()).thenReturn("ID 3. Mistoffelees");
-
         assertEquals("ID 1. Jennyanydots\nID 2. Old Deuteronomy\nID 3. Mistoffelees\n", r.listCats());
 	}
 
@@ -209,11 +205,10 @@ public class RentACatIntegrationTest {
 	@Test
 	public void testRenameNumCat3() {
 		r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
-
-        assertTrue(r.renameCat(2, "Garfield"));
-        verify(c2).renameCat("Garfield");
+		r.addCat(c2);
+		r.addCat(c3);
+		assertTrue(r.renameCat(2, "Garfield"));
+		assertEquals("Garfield", c2.getName());
 	}
 
 	/**
@@ -230,12 +225,11 @@ public class RentACatIntegrationTest {
 	@Test
 	public void testRentCatNumCats3() {
 		r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
-
-        when(c2.getRented()).thenReturn(false);
-        assertTrue(r.rentCat(2));
-        verify(c2).rentCat();
+		r.addCat(c2);
+		r.addCat(c3);
+		assertTrue(r.rentCat(2));
+		assertEquals("Old Deuteronomy has been rented." + newline, out.toString());
+		
 	}
 
 	/**
@@ -255,10 +249,10 @@ public class RentACatIntegrationTest {
 		r.addCat(c1);
         r.addCat(c2);
         r.addCat(c3);
+		c2.rentCat();
 
-        when(c2.getRented()).thenReturn(true);
         assertFalse(r.rentCat(2));
-        assertEquals("Sorry, Old Deuteronomy is not here!" + newline, out.toString());
+		assertEquals("Sorry, Old Deuteronomy is not here!" + newline, out.toString());
 	}
 
 	/**
@@ -278,10 +272,9 @@ public class RentACatIntegrationTest {
 		r.addCat(c1);
         r.addCat(c2);
         r.addCat(c3);
-
-        when(c2.getRented()).thenReturn(true);
+		c2.rentCat();
+        
         assertTrue(r.returnCat(2));
-        verify(c2).returnCat();
         assertEquals("Welcome back, Old Deuteronomy!" + newline, out.toString());
 	}
 
@@ -302,9 +295,8 @@ public class RentACatIntegrationTest {
         r.addCat(c2);
         r.addCat(c3);
 
-        when(c2.getRented()).thenReturn(false);
         assertFalse(r.returnCat(2));
-        assertEquals("Old Deuteronomy is already here!" + newline, out.toString());
+		assertEquals("Old Deuteronomy is already here!" + newline, out.toString());
 	}
 
 }

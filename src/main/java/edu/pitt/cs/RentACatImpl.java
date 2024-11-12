@@ -21,8 +21,12 @@ public class RentACatImpl implements RentACat {
 		Cat cat = getCat(id);
     		if (cat != null && cat.getRented()) {
         		cat.returnCat();
+				System.out.print("Welcome back, " + cat.getName() + "!\n");
         		return true;
     		}
+			else {
+				System.out.print(cat.getName() + " is already here!\n");
+			}
     	return false;
 	}
 
@@ -40,8 +44,12 @@ public class RentACatImpl implements RentACat {
 		Cat cat = getCat(id);
     		if (cat != null && !cat.getRented()) {
         		cat.rentCat();
+				System.out.print(cat.getName() + " has been rented.\n");
         		return true;
     		}
+			else {
+				System.out.print("Sorry, " + cat.getName() + " is not here!\n");
+			}
     	return false;
 	}
 
