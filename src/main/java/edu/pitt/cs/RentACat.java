@@ -1,6 +1,9 @@
 package edu.pitt.cs;
 
 import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*; 
 
 public interface RentACat {
@@ -13,8 +16,14 @@ public interface RentACat {
 			case SOLUTION:
 				return new RentACatSolution();
 			case MOCK:
-				// TODO: Return a mock object that emulates the behavior of a real object.
-				return null;
+				RentACat mockRentACat = mock(RentACat.class);
+				
+				when(mockRentACat.returnCat(anyInt())).thenReturn(true);
+				when(mockRentACat.rentCat(anyInt())).thenReturn(true);
+				when(mockRentACat.renameCat(anyInt(), anyString())).thenReturn(true);
+				when(mockRentACat.listCats()).thenReturn("ID 1. Jennyanydots\nID 2. Old Deuteronomy\nID 3. Mistoffelees");
+
+				return mockRentACat;
 			default:
 				assert (false);
 				return null;
